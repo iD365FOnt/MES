@@ -1,0 +1,192 @@
+{
+	"info": {
+		"_postman_id": "93a316df-a6a3-42b3-835e-d2f0448c79f7",
+		"name": "MES",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "659252"
+	},
+	"item": [
+		{
+			"name": "PostMEStoD365_RP",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"_companyId\": \"USMF\",\r\n    \"_messageQueue\": \"JmgMES3P\",\r\n    \"_messageType\": \"ProdProductionOrderReportFinished\",\r\n    \"_messageContent\":\r\n    \"{\\\"ProductionOrderNumber\\\": \\\"P000214\\\", \\\"ReportFinishedLines\\\": [{\\\"ItemNumber\\\": \\\"L0100\\\", \\\"ReportedGoodQuantity\\\": 1, \\\"ReportAsFinishedDate\\\": \\\"2021-01-01\\\"}]}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{EnvironmentURL}}/api/services/SysMessageServices/SysMessageService/SendMessage",
+					"host": [
+						"{{EnvironmentURL}}"
+					],
+					"path": [
+						"api",
+						"services",
+						"SysMessageServices",
+						"SysMessageService",
+						"SendMessage"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PostMEStoD365_Start",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"_companyId\": \"USMF\",\r\n    \"_messageQueue\": \"JmgMES3P\",\r\n    \"_messageType\": \"ProdProductionOrderStart\",\r\n    \"_messageContent\":\r\n    \"{\\\"ProductionOrderNumber\\\": \\\"P000211\\\"}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{EnvironmentURL}}/api/services/SysMessageServices/SysMessageService/SendMessage",
+					"host": [
+						"{{EnvironmentURL}}"
+					],
+					"path": [
+						"api",
+						"services",
+						"SysMessageServices",
+						"SysMessageService",
+						"SendMessage"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PostMEStoD365_End",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"_companyId\": \"USMF\",\r\n    \"_messageQueue\": \"JmgMES3P\",\r\n    \"_messageType\": \"ProdProductionOrderEnd\",\r\n    \"_messageContent\":\r\n    \"{\\\"ProductionOrderNumber\\\": \\\"P000214\\\"}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{EnvironmentURL}}/api/services/SysMessageServices/SysMessageService/SendMessage",
+					"host": [
+						"{{EnvironmentURL}}"
+					],
+					"path": [
+						"api",
+						"services",
+						"SysMessageServices",
+						"SysMessageService",
+						"SendMessage"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetToken",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"postman.setEnvironmentVariable(\"token\", jsonData.access_token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "resource",
+							"value": "{{EnvironmentURL}}",
+							"type": "text"
+						},
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "{{client_id}}",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "{{client_secret}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://login.microsoftonline.com/{{tenant}}/oauth2/token",
+					"protocol": "https",
+					"host": [
+						"login",
+						"microsoftonline",
+						"com"
+					],
+					"path": [
+						"{{tenant}}",
+						"oauth2",
+						"token"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
